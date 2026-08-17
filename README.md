@@ -19,12 +19,19 @@ GET https://rblxdb.com/api/v1/songs?q=<search>&genre=<genre>&limit=<1-100>
 ```json
 {
   "count": 1,
+  "attribution": {
+    "text": "Roblox ID data from rblxdb",
+    "url": "https://rblxdb.com",
+    "html": "<a href=\"https://rblxdb.com/music\">Roblox music codes by rblxdb</a>"
+  },
   "songs": [{
     "id": "142376088",
-    "name": "Raining Tacos",
-    "genre": "comedy",
+    "name": "Parry Gripp - Raining Tacos",
+    "artist": "Parry Gripp",
+    "genre": "electronic",
     "isWorking": true,
-    "verifiedAt": "2026-08-17T09:00:00.000Z"
+    "verifiedAt": "2026-08-17T09:00:00.000Z",
+    "url": "https://rblxdb.com/music/parry-gripp-raining-tacos-142376088"
   }]
 }
 ```
@@ -65,6 +72,16 @@ end
 import requests
 songs = requests.get("https://rblxdb.com/api/v1/songs", params={"q": "tacos"}).json()["songs"]
 working_ids = [s["id"] for s in songs if s["isWorking"]]
+```
+
+## Attribution
+
+Every response carries an `attribution` object with a ready-made credit line, and every item includes its own `url` back to the page for that ID. Linking those gives your users the live verification status too:
+
+```js
+const { songs, attribution } = await (await fetch('https://rblxdb.com/api/v1/songs?limit=10')).json()
+songs.forEach(s => console.log(`${s.name} — ${s.id} → ${s.url}`))
+document.querySelector('#credit').innerHTML = attribution.html
 ```
 
 ## Fair use
